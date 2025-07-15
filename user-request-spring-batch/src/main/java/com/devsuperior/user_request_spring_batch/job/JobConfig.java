@@ -1,4 +1,4 @@
-package com.devsuperior.user_request_spring_batch.config;
+package com.devsuperior.user_request_spring_batch.job;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
