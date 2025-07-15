@@ -32,7 +32,7 @@ public class FetchUserDataReaderConfig implements ItemReader<UserDTO> {
 
 	private int page = 0;
 
-	private List<UserDTO> usersList = new ArrayList<>();
+	private List<UserDTO> users = new ArrayList<>();
 	private int userIndex = 0;
 
 	@Value("${chunkSize}")
@@ -44,8 +44,8 @@ public class FetchUserDataReaderConfig implements ItemReader<UserDTO> {
 	public UserDTO read() throws Exception, UnexpectedInputException, ParseException, NonTransientResourceException {
 		UserDTO user;
 
-		if (userIndex < usersList.size()) {
-			user = usersList.get(userIndex);
+		if (userIndex < users.size()) {
+			user = users.get(userIndex);
 		} else {
 			return null;
 		}
@@ -77,7 +77,7 @@ public class FetchUserDataReaderConfig implements ItemReader<UserDTO> {
 	@BeforeChunk
 	public void beforeChunk(ChunkContext context) {
 		for (int i = 0; i < chunkSize; i += pageSize) {
-			usersList.addAll(fetchUserDataFromAPI());
+			users.addAll(fetchUserDataFromAPI());
 		}
 	}
 
@@ -86,7 +86,7 @@ public class FetchUserDataReaderConfig implements ItemReader<UserDTO> {
 		logger.info("Final chunk");
 		incrementPage();
 		userIndex = 0;
-		usersList = new ArrayList<>();
+		users = new ArrayList<>();
 	}
 
 }
